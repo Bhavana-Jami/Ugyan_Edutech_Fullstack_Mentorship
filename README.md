@@ -1,1 +1,2 @@
-# ugyan_tech_full_stack_training
+# Ugyan Tech Full Stack Training
+A pilot full-stack web development mentorship project by Bhavana Jami for Ugyan Tech's early talent internship program.
