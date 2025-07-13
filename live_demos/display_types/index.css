@@ -1,0 +1,58 @@
+ body {
+     font-family: sans-serif;
+     padding: 20px;
+ }
+
+ .section {
+     margin-bottom: 40px;
+ }
+
+ .label {
+     font-weight: bold;
+     margin-bottom: 10px;
+     display: block;
+ }
+
+ .box {
+     background-color: #4caf50;
+     color: white;
+     padding: 10px;
+     margin: 5px;
+     border-radius: 5px;
+ }
+
+ .block-demo .box {
+     display: block;
+     width: 200px;
+ }
+
+ .inline-demo .box {
+     display: inline;
+     /* width: 200px; */
+
+ }
+
+ .inline-block-demo .box {
+     display: inline-block;
+     width: 100px;
+ } 
+
+ /* .flex-demo {
+     display: flex;
+     gap: 10px;
+ } */
+/* 
+ .grid-demo {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 10px;
+ } */
+/* 
+ .none-demo .box.hidden {
+     display: none;
+ } */
+
+ /* .note {
+     font-size: 0.9rem;
+     color: #555;
+ } */

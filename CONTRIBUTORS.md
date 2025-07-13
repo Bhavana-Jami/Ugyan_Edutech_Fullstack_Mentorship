@@ -16,4 +16,4 @@ To add your name, follow these steps:
 - Bhavana Jami – 💙 Maintainer of the project
 
 <!-- New contributors: Add your name below -->
-- Your Name – [vv](https://github.com/Vardhan1607)
+- Your Name – [GitHubUsername](https://github.com/YourUsername)

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive CSS Responsive Design Guide</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-color: #4f46e5;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --border-light: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .progress-tracker {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .progress-step {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-step.active {
+            background: var(--accent-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-number {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .interactive-demo {
+            background: var(--bg-light);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .demo-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--accent-color);
+            background: transparent;
+            color: var(--accent-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .demo-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .demo-btn.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .viewport-demo {
+            border: 3px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .viewport-demo.mobile {
+            width: 375px;
+            height: 667px;
+            margin: 0 auto;
+        }
+
+        .viewport-demo.tablet {
+            width: 768px;
+            height: 1024px;
+            margin: 0 auto;
+        }
+
+        .viewport-demo.desktop {
+            width: 100%;
+            height: 600px;
+        }
+
+        .demo-content {
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-language);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .code-keyword { color: #c792ea; }
+        .code-string { color: #c3e88d; }
+        .code-comment { color: #546e7a; font-style: italic; }
+        .code-property { color: #82aaff; }
+        .code-value { color: #f78c6c; }
+
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 12px;
+            background: var(--secondary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .breakpoint-visualizer {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .breakpoint-bar {
+            height: 3rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .breakpoint-segment {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .breakpoint-mobile {
+            left: 0;
+            width: 30%;
+            background: #ef4444;
+        }
+
+        .breakpoint-tablet {
+            left: 30%;
+            width: 30%;
+            background: #f59e0b;
+        }
+
+        .breakpoint-desktop {
+            left: 60%;
+            width: 40%;
+            background: var(--success-color);
+        }
+
+        .slider-container {
+            margin: 2rem 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--bg-light);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .live-example {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .example-header {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .example-content {
+            padding: 2rem;
+            min-height: 200px;
+        }
+
+        .responsive-text {
+            font-size: clamp(1rem, 4vw, 2rem);
+            font-weight: 600;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .fluid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .grid-item {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 1px solid #93c5fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .tips-box::before {
+            content: "💡";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: white;
+            padding: 0 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .accordion {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: var(--bg-light);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--border-light);
+        }
+
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1000;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .section {
+                padding: 2rem;
+            }
+
+            .hero {
+                padding: 3rem 1rem;
+            }
+
+            .responsive-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .viewport-demo.mobile,
+            .viewport-demo.tablet,
+            .viewport-demo.desktop {
+                width: 100%;
+                height: 400px;
+            }
+
+            .demo-controls {
+                flex-wrap: wrap;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero animate-in">
+            <h1>CSS Responsive Design</h1>
+            <p>Master responsive web design with interactive examples and hands-on practice</p>
+            <div class="progress-tracker">
+                <div class="progress-step active" data-step="1">1</div>
+                <div class="progress-step" data-step="2">2</div>
+                <div class="progress-step" data-step="3">3</div>
+                <div class="progress-step" data-step="4">4</div>
+                <div class="progress-step" data-step="5">5</div>
+                <div class="progress-step" data-step="6">6</div>
+                <div class="progress-step" data-step="7">7</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Viewport Foundation -->
+        <div class="section animate-in" data-step="1">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2 class="section-title">Foundation: Viewport Meta Tag</h2>
+            </div>
+            
+            <p>The viewport meta tag is the foundation of responsive design. It tells the browser how to control the page's dimensions and scaling.</p>
+            
+            <div class="interactive-demo">
+                <div class="demo-header">
+                    <h3 class="demo-title">Interactive Viewport Demo</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn active" onclick="toggleViewport(true)">With Viewport</button>
+                        <button class="demo-btn" onclick="toggleViewport(false)">Without Viewport</button>
+                    </div>
+                </div>
+                
+                <div class="viewport-demo mobile" id="viewportDemo">
+                    <div class="demo-content">
+                        <h3>Mobile View</h3>
+                        <p>This content adapts to mobile screens when viewport meta tag is present.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" data-language="html">
+<span class="code-comment">&lt;!-- Add this to your HTML head --&gt;</span>
+<span class="code-keyword">&lt;meta</span> <span class="code-property">name</span>=<span class="code-string">"viewport"</span> <span class="code-property">content</span>=<span class="code-string">"width=device-width, initial-scale=1.0"</span><span class="code-keyword">&gt;</span>
+            </div>
+
+            <div class="tips-box">
+                <strong>Key Points:</strong>
+                <ul>
+                    <li><code>width=device-width</code> - Makes the page width match the device width</li>
+                    <li><code>initial-scale=1.0</code> - Sets the initial zoom level to 100%</li>
+                    <li>Without this tag, mobile browsers will show a zoomed-out desktop version</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 2: Flexible Foundation -->
+        <div class="section animate-in" data-step="2">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2 class="section-title">Flexible Foundation</h2>
+            </div>
+
+            <p>Set up your CSS foundation with box-sizing and flexible elements to make responsive design predictable.</p>
+
+            <div class="responsive-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Box-Sizing</h3>
+                    <p>Include padding and borders in element width calculations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Flexible Images</h3>
+                    <p>Make images scale with their container</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Reset Styles</h3>
+                    <p>Normalize default browser styles for consistency</p>
+                </div>
+            </div>
+
+            <div class="code-block" data-language="css">
+<span class="code-comment">/* Universal box-sizing reset */</span>
+<span class="code-property">*</span> {
+    <span class="code-property">box-sizing</span>: <span class="code-value">border-box</span>;
+    <span class="code-property">margin</span>: <span class="code-value">0</span>;
+    <span class="code-property">padding</span>: <span class="code-value">0</span>;
+}
+
+<span class="code-comment">/* Responsive images */</span>
+<span class="code-property">img</span> {
+    <span class="code-property">max-width</span>: <span class="code-value">100%</span>;
+    <span class="code-property">height</span>: <span class="code-value">auto</span>;
+}
+            </div>
+        </div>
+
+        <!-- Step 3: Responsive Units -->
+        <div class="section animate-in" data-step="3">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2 class="section-title">Responsive Units</h2>
+            </div>
+
+            <p>Use units that scale with screen size and user preferences instead of fixed pixel values.</p>
+
+            <div class="interactive-demo">
+                <div class="demo-header">
+                    <h3 class="demo-title">Unit Comparison</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn active" onclick="changeUnit('rem')">rem</button>
+                        <button class="demo-btn" onclick="changeUnit('em')">em</button>
+                        <button class="demo-btn" onclick="changeUnit('vw')">vw</button>
+                        <button class="demo-btn" onclick="changeUnit('px')">px</button>
+                    </div>
+                </div>
+                
+                <div class="example-content">
+                    <div class="responsive-text" id="unitExample">
+                        This text uses rem units
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        <small>Current unit: <span id="currentUnit">rem</span></small>
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📏 Relative Units</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>rem:</strong> Relative to root element font size (16px default)</p>
+                    <p><strong>em:</strong> Relative to parent element font size</p>
+                    <p><strong>%:</strong> Relative to parent element's property</p>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📱 Viewport Units</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>vw:</strong> 1% of viewport width</p>
+                    <p><strong>vh:</strong> 1% of viewport height</p>
+                    <p><strong>vmin:</strong> 1% of viewport's smaller dimension</p>
+                    <p><strong>vmax:</strong> 1% of viewport's larger dimension</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Media Queries -->
+        <div class="section animate-in" data-step="4">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <h2 class="section-title">Media Queries</h2>
+            </div>
+
+            <p>Apply different styles based on device characteristics like screen size, orientation, and resolution.</p>
+
+            <div class="breakpoint-visualizer">
+                <h3>Common Breakpoints</h3>
+                <div class="breakpoint-bar">
+                    <div class="breakpoint-segment breakpoint-mobile">Mobile<br>≤ 767px</div>
+                    <div class="breakpoint-segment breakpoint-tablet">Tablet<br>768px - 1023px</div>
+                    <div class="breakpoint-segment breakpoint-desktop">Desktop<br>≥ 1024px</div>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-header">
+                    <h3 class="demo-title">Responsive Layout Demo</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn active" onclick="changeBreakpoint('mobile')">📱 Mobile</button>
+                        <button class="demo-btn" onclick="changeBreakpoint('tablet')">📟 Tablet</button>
+                        <button class="demo-btn" onclick="changeBreakpoint('desktop')">💻 Desktop</button>
+                    </div>
+                </div>
+                
+                <div class="viewport-demo mobile" id="breakpointDemo">
+                    <div class="demo-content">
+                        <div class="fluid-grid" id="responsiveGrid">
+                            <div class="grid-item">Item 1</div>
+                            <div class="grid-item">Item 2</div>
+                            <div class="grid-item">Item 3</div>
+                            <div class="grid-item">Item 4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" data-language="css">
+<span class="code-comment">/* Mobile-first approach */</span>
+<span class="code-property">.container</span> {
+    <span class="code-property">padding</span>: <span class="code-value">1rem</span>;
+}
+
+<span class="code-comment">/* Tablet styles */</span>
+<span class="code-keyword">@media</span> (<span class="code-property">min-width</span>: <span class="code-value">768px</span>) {
+    <span class="code-property">.container</span> {
+        <span class="code-property">padding</span>: <span class="code-value">2rem</span>;
+    }
+}
+
+<span class="code-comment">/* Desktop styles */</span>
+<span class="code-keyword">@media</span> (<span class="code-property">min-width</span>: <span class="code-value">1024px</span>) {
+    <span class="code-property">.container</span> {
+        <span class="code-property">padding</span>: <span class="code-value">3rem</span>;
+        <span class="code-property">max-width</span>: <span class="code-value">1200px</span>;
+    }
+}
+            </div>
+        </div>
+
+        <!-- Step 5: Mobile-First Strategy -->
+        <div class="section animate-in" data-step="5">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <h2 class="section-title">Mobile-First Strategy</h2>
+            </div>
+
+            <p>Design for mobile devices first, then enhance for larger screens. This approach improves performance and user experience.</p>
+
+            <div class="responsive-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Performance</h3>
+                    <p>Faster loading on mobile devices with limited bandwidth</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Focus</h3>
+                    <p>Forces you to prioritize essential content and features</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>User-Centric</h3>
+                    <p>Mobile users represent the majority of web traffic</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-header">
+                    <h3 class="demo-title">Mobile Navigation Demo</h3>
+                </div>
+                
+                <div class="example-content">
+                    <div style="text-align: center;">
+                        <button class="demo-btn" onclick="toggleMobileNav()">Toggle Mobile Menu</button>
+                        <div id="mobileNavDemo" style="display: none; margin-top: 1rem; padding: 1rem; background: #f3f4f6; border-radius: 8px;">
+                            <p>🍔 Mobile Menu</p>
+                            <p>• Home</p>
+                            <p>• About</p>
+                            <p>• Services</p>
+                            <p>• Contact</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <strong>Mobile-First Benefits:</strong>
+                <ul>
+                    <li>Easier to add features than remove them</li>
+                    <li>Better performance on mobile networks</li>
+                    <li>Improved accessibility and usability</li>
+                    <li>Future-proof as mobile usage continues to grow</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 6: Flexible Images and Media -->
+        <div class="section animate-in" data-step="6">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <h2 class="section-title">Flexible Images and Media</h2>
+            </div>
+
+            <p>Make images, videos, and other media adapt seamlessly to their container size.</p>
+
+            <div class="interactive-demo">
+                <div class="demo-header">
+                    <h3 class="demo-title">Image Scaling Demo</h3>
+                    <div class="demo-controls">
+                        <button class="demo-btn active" onclick="changeImageMode('responsive')">Responsive</button>
+                        <button class="demo-btn" onclick="changeImageMode('fixed')">Fixed Width</button>
+                    </div>
+                </div>
+                
+                <div class="example-content">
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); height: 200px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; transition: all 0.3s ease;" id="imageDemo">
+                        🖼️ Responsive Image
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        <small>Resize the container to see the effect</small>
+                    </p>
+                </div>
+            </div>
+
+            <div class="code-block" data-language="css">
+<span class="code-comment">/* Basic responsive images */</span>
+<span class="code-property">img</span> {
+    <span class="code-property">max-width</span>: <span class="code-value">100%</span>;
+    <span class="code-property">height</span>: <span class="code-value">auto</span>;
+}
+
+<span class="code-comment">/* Responsive aspect ratio container */</span>
+<span class="code-property">.aspect-ratio</span> {
+    <span class="code-property">position</span>: <span class="code-value">relative</span>;
+    <span class="code-property">padding-bottom</span>: <span class="code-value">56.25%</span

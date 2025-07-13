@@ -1,0 +1,63 @@
+<!-- | `display` type | Description                                |
+| -------------- | ------------------------------------------ |
+| `block`        | Takes full width, starts on a new line.    |
+| `inline`       | Flows within text, can't set width/height. |
+| `inline-block` | Like inline, but allows width/height.      |
+| `flex`         | Enables flex container and layout.         |
+| `grid`         | Enables grid layout with rows/columns.     |
+| `none`         | Hides element from the DOM flow.           | -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Display Types</title>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <div class="section block-demo">
+    <span class="label">Display: block</span>
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 2</div>
+
+  </div>
+
+  <div class="section inline-demo">
+    <span class="label">Display: inline</span>
+    <span class="box">Box A</span>
+    <span class="box">Box B</span>
+  </div>
+
+  <div class="section inline-block-demo">
+    <span class="label">Display: inline-block</span>
+    <span class="box">Box X</span>
+    <span class="box">Box Y</span>
+  </div> 
+
+  <!-- <div class="section flex-demo">
+    <span class="label">Display: flex</span>
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+  </div> -->
+
+  <!-- <div class="section grid-demo">
+    <span class="label">Display: grid</span>
+    <div class="box">A</div>
+    <div class="box">B</div>
+    <div class="box">C</div>
+  </div> -->
+
+  <!-- <div class="section none-demo">
+    <span class="label">Display: none</span>
+    <div class="box">Visible</div>
+    <div class="box hidden">Hidden (display: none)</div>
+    <div class="box">Visible</div>
+    <div class="note">The hidden box is not rendered in layout.</div>
+  </div> -->
+
+</body>
+</html>

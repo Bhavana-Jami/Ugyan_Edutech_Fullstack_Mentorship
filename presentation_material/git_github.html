@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git for Beginners</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .presentation-container {
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 20px 0 15px 0;
+        }
+
+        p, li {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .code-block .command {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .example-box {
+            background: #ecf0f1;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .workflow-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 10px;
+            min-width: 120px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .workflow-arrow {
+            font-size: 2em;
+            color: #3498db;
+            margin: 0 10px;
+        }
+
+        .navigation {
+            background: #34495e;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .key-points {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .key-points h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .warning-box {
+            background: #fef9e7;
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .git-commands {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .command-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .command-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Git for Beginners</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 4em; color: #3498db; margin-bottom: 20px;">🚀</div>
+                <p style="font-size: 1.3em; color: #2c3e50; margin-bottom: 10px;">Master Version Control from Scratch</p>
+                <p style="font-size: 1.1em; color: #7f8c8d;">Learn Git with practical examples and hands-on exercises</p>
+            </div>
+            <div style="text-align: center; margin-top: 60px;">
+                <p style="font-size: 1.2em; color: #34495e;">Ready to become a Git expert? Let's dive in!</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is Git? -->
+        <div class="slide">
+            <h2>What is Git?</h2>
+            <p>Git is a <strong>distributed version control system</strong> that helps you track changes in your code over time.</p>
+            
+            <div class="key-points">
+                <h3>🎯 Key Benefits</h3>
+                <ul>
+                    <li><strong>Track Changes:</strong> See what changed, when, and who made the changes</li>
+                    <li><strong>Collaboration:</strong> Multiple developers can work on the same project</li>
+                    <li><strong>Backup:</strong> Your code is safely stored in multiple places</li>
+                    <li><strong>Branching:</strong> Work on different features simultaneously</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h3>🌟 Real-World Example</h3>
+                <p>Imagine you're writing a book with friends. Git is like having a magical notebook that:</p>
+                <ul>
+                    <li>Remembers every version of every chapter</li>
+                    <li>Lets everyone work on different chapters simultaneously</li>
+                    <li>Combines everyone's work seamlessly</li>
+                    <li>Lets you go back to any previous version</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Git Workflow -->
+        <div class="slide">
+            <h2>Git Workflow</h2>
+            <p>Understanding the Git workflow is crucial for effective version control.</p>
+            
+            <div class="workflow-diagram">
+                <div class="workflow-step">
+                    <div>📝</div>
+                    <div><strong>Working Directory</strong></div>
+                    <div>Your files</div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div>📦</div>
+                    <div><strong>Staging Area</strong></div>
+                    <div>Prepared changes</div>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div>💾</div>
+                    <div><strong>Repository</strong></div>
+                    <div>Saved history</div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>📚 Think of it like this:</h3>
+                <ul>
+                    <li><strong>Working Directory:</strong> Your desk where you're working</li>
+                    <li><strong>Staging Area:</strong> A box where you put things ready to be filed</li>
+                    <li><strong>Repository:</strong> The filing cabinet where everything is permanently stored</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Getting Started -->
+        <div class="slide">
+            <h2>Getting Started</h2>
+            
+            <h3>1. Install Git</h3>
+            <ul>
+                <li><strong>Windows:</strong> Download from <a href="https://git-scm.com" target="_blank">git-scm.com</a></li>
+                <li><strong>Mac:</strong> <code>brew install git</code> or from git-scm.com</li>
+                <li><strong>Linux:</strong> <code>sudo apt install git</code> (Ubuntu/Debian)</li>
+            </ul>
+
+            <h3>2. Configure Git</h3>
+            <div class="code-block">
+<span class="comment"># Set your name and email (required for commits)</span>
+<span class="command">git config --global user.name "Your Name"</span>
+<span class="command">git config --global user.email "your.email@example.com"</span>
+
+<span class="comment"># Check your configuration</span>
+<span class="command">git config --list</span>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Important</h3>
+                <p>Use the same email address you'll use for GitHub, GitLab, or other Git hosting services!</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Creating Your First Repository -->
+        <div class="slide">
+            <h2>Creating Your First Repository</h2>
+            
+            <h3>Method 1: Start from scratch</h3>
+            <div class="code-block">
+<span class="comment"># Create a new directory for your project</span>
+<span class="command">mkdir my-first-project</span>
+<span class="command">cd my-first-project</span>
+
+<span class="comment"># Initialize Git repository</span>
+<span class="command">git init</span>
+            </div>
+
+            <h3>Method 2: Clone an existing repository</h3>
+            <div class="code-block">
+<span class="comment"># Clone a repository from GitHub</span>
+<span class="command">git clone https://github.com/username/repository.git</span>
+<span class="command">cd repository</span>
+            </div>
+
+            <div class="example-box">
+                <h3>🎯 Practice Exercise</h3>
+                <p>Create a folder called "my-website", navigate to it, and initialize a Git repository. Then create a simple HTML file called "index.html".</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Basic Git Commands -->
+        <div class="slide">
+            <h2>Essential Git Commands</h2>
+            
+            <div class="git-commands">
+                <div class="command-card">
+                    <div class="command-name">git status</div>
+                    <p>Shows the current state of your repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git add</div>
+                    <p>Stages changes for the next commit</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git commit</div>
+                    <p>Saves staged changes to the repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git log</div>
+                    <p>Shows the commit history</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git diff</div>
+                    <p>Shows differences between versions</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git push</div>
+                    <p>Uploads changes to remote repository</p>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h3>💡 Pro Tip</h3>
+                <p>Use <code>git status</code> frequently! It's your best friend and will tell you exactly what's happening in your repository.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Making Your First Commit -->
+        <div class="slide">
+            <h2>Making Your First Commit</h2>
+            
+            <p>Let's walk through the process of making your first commit step by step.</p>
+
+            <div class="code-block">
+<span class="comment"># 1. Create a new file</span>
+<span class="command">echo "Hello, Git!" > hello.txt</span>
+
+<span class="comment"># 2. Check the status</span>
+<span class="command">git status</span>
+<span style="color: #e74c3c;">On branch main
+Untracked files:
+  hello.txt</span>
+
+<span class="comment"># 3. Add the file to staging area</span>
+<span class="command">git add hello.txt</span>
+
+<span class="comment"># 4. Check status again</span>
+<span class="command">git status</span>
+<span style="color: #27ae60;">Changes to be committed:
+  new file:   hello.txt</span>
+
+<span class="comment"># 5. Commit the changes</span>
+<span class="command">git commit -m "Add hello.txt with greeting message"</span>
+            </div>
+
+            <div class="example-box">
+                <h3>🎯 Best Practice: Good Commit Messages</h3>
+                <ul>
+                    <li>Use present tense: "Add feature" not "Added feature"</li>
+                    <li>Be descriptive but concise</li>
+                    <li>Explain what and why, not how</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Working with Remote Repositories -->
+        <div class="slide">
+            <h2>Working with Remote Repositories</h2>
+            
+            <p>Remote repositories are versions of your project hosted on the internet (like GitHub, GitLab, or Bitbucket).</p>
+
+            <h3>Adding a Remote Repository</h3>
+            <div class="code-block">
+<span class="comment"># Add GitHub as remote origin</span>
+<span class="command">git remote add origin https://github.com/username/repository.git</span>
+
+<span class="comment"># View remote repositories</span>
+<span class="command">git remote -v</span>
+            </div>
+
+            <h3>Pushing and Pulling Changes</h3>
+            <div class="code-block">
+<span class="comment"># Push changes to remote repository</span>
+<span class="command">git push origin main</span>
+
+<span class="comment"># Pull changes from remote repository</span>
+<span class="command">git pull origin main</span>
+
+<span class="comment"># Push and set upstream (first time)</span>
+<span class="command">git push -u origin main</span>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Common Issue</h3>
+                <p>If you get an error when pushing, you might need to pull first: <code>git pull origin main</code></p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Branching Basics -->
+        <div class="slide">
+            <h2>Branching Basics</h2>
+            
+            <p>Branches allow you to work on different features or experiments without affecting the main codebase.</p>
+
+            <div class="code-block">
+<span class="comment"># Create a new branch</span>
+<span class="command">git branch feature-login</span>
+
+<span class="comment"># Switch to the new branch</span>
+<span class="command">git checkout feature-login</span>
+
+<span class="comment"># Create and switch in one command</span>
+<span class="command">git checkout -b feature-login</span>
+
+<span class="comment"># List all branches</span>
+<span class="command">git branch</span>
+
+<span class="comment"># Switch back to main branch</span>
+<span class="command">git checkout main</span>
+
+<span class="comment"># Delete a branch</span>
+<span class="command">git branch -d feature-login</span>
+            </div>
+
+            <div class="example-box">
+                <h3>🌿 Branch Naming Conventions</h3>
+                <ul>
+                    <li><strong>feature/</strong> - New features (e.g., feature/user-authentication)</li>
+                    <li><strong>bugfix/</strong> - Bug fixes (e.g., bugfix/login-error)</li>
+                    <li><strong>hotfix/</strong> - Urgent fixes (e.g., hotfix/security-patch)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 10: Practical Example -->
+        <div class="slide">
+            <h2>Practical Example: Building a Website</h2>
+            
+            <p>Let's create a simple website project and use Git to track our progress.</p>
+
+            <div class="code-block">
+<span class="comment"># 1. Create project and initialize Git</span>
+<span class="command">mkdir awesome-website</span>
+<span class="command">cd awesome-website</span>
+<span class="command">git init</span>
+
+<span class="comment"># 2. Create initial files</span>
+<span class="command">echo "&lt;h1&gt;My Awesome Website&lt;/h1&gt;" > index.html</span>
+<span class="command">echo "body { font-family: Arial; }" > styles.css</span>
+
+<span class="comment"># 3. Add and commit</span>
+<span class="command">git add .</span>
+<span class="command">git commit -m "Initial website structure"</span>
+
+<span class="comment"># 4. Create a new feature branch</span>
+<span class="command">git checkout -b add-navigation</span>
+
+<span class="comment"># 5. Add navigation (edit index.html)</span>
+<span class="command">echo "&lt;nav&gt;&lt;a href='#'&gt;Home&lt;/a&gt;&lt;/nav&gt;" >> index.html</span>
+
+<span class="comment"># 6. Commit the change</span>
+<span class="command">git add index.html</span>
+<span class="command">git commit -m "Add navigation menu"</span>
+
+<span class="comment"># 7. Switch back to main and merge</span>
+<span class="command">git checkout main</span>
+<span class="command">git merge add-navigation</span>
+            </div>
+        </div>
+
+        <!-- Slide 11: Common Git Commands Summary -->
+        <div class="slide">
+            <h2>Git Commands Cheat Sheet</h2>
+            
+            <div class="git-commands">
+                <div class="command-card">
+                    <div class="command-name">git init</div>
+                    <p>Initialize a new Git repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git clone &lt;url&gt;</div>
+                    <p>Clone a remote repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git status</div>
+                    <p>Check repository status</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git add &lt;file&gt;</div>
+                    <p>Stage specific file</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git add .</div>
+                    <p>Stage all changes</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git commit -m "&lt;message&gt;"</div>
+                    <p>Commit staged changes</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git push</div>
+                    <p>Push to remote repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git pull</div>
+                    <p>Pull from remote repository</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git branch</div>
+                    <p>List branches</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git checkout &lt;branch&gt;</div>
+                    <p>Switch branches</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git log</div>
+                    <p>View commit history</p>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">git diff</div>
+                    <p>Show changes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Next Steps -->
+        <div class="slide">
+            <h2>Next Steps & Best Practices</h2>
+            
+            <div class="key-points">
+                <h3>🎯 Best Practices</h3>
+                <ul>
+                    <li>Commit often with meaningful messages</li>
+                    <li>Use branches for new features</li>
+                    <li>Pull before pushing to avoid conflicts</li>
+                    <li>Don't commit sensitive information (passwords, API keys)</li>
+                    <li>Use .gitignore to exclude unnecessary files</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h3>🚀 Continue Learning</h3>
+                <ul>
+                    <li>Practice with a real project</li>
+                    <li>Learn about merge conflicts and how to resolve them</li>
+                    <li>Explore GitHub/GitLab features</li>
+                    <li>Learn about Git stash, rebase, and cherry-pick</li>
+                    <li>Set up SSH keys for easier authentication</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <h3>🎉 Congratulations!</h3>
+                <p>You now have the fundamentals of Git. Start practicing and you'll become proficient in no time!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+            </span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(currentSlideIndex);
+    </script>
+</body>
+</html>
