@@ -1,0 +1,142 @@
+:root {
+    --primary_color: #000;
+    --text_color_white: white;
+    --secondary_color: rgb(153, 148, 212);
+    --border-radius: 2rem;
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    /* to centre the element inside the container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+#container {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 8rem 8rem 8rem 8rem;
+}
+
+#intro {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    background-color: var(--primary_color);
+    color: var(--text_color_white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    border-radius: var(--border-radius);
+}
+
+#name_container h1{
+    font-size: 3.7rem;
+    font-weight: bolder;
+}
+#name_container p{
+    font-size:2rem ;
+}
+#about {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    background-color: var(--secondary_color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0.8rem;
+    gap: 0.5rem;
+}
+#about p{
+    font-size: 1.6rem;
+    text-align: center;
+}
+#about div{
+    display: flex;
+    gap: 0.7rem;
+}
+#about span{
+    font-size: 1.4rem;
+    background-color: rgb(115, 111, 158);
+    padding: 0.8rem;
+    border-radius: 1rem;
+}
+#projects {
+    color: var(--text_color_white);
+    background-color: var(--primary_color);
+    border-radius: var(--border-radius);
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 3;
+    grid-row-end: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+        padding: 0.8rem;
+
+}
+#projects p{
+    font-size: 1.2rem;
+    text-align: center;
+
+}
+#skills {
+    background-color: var(--primary_color);
+    border-radius: var(--border-radius);
+    color: var(--text_color_white);
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#skills div{
+    display: flex;
+    gap: 0.5rem;
+}
+#skills span{
+    font-size: 1.4rem;
+    background-color: rgb(115, 111, 158);
+    padding: 0.4rem;
+    border-radius: 1rem;
+}
+#experience {
+    background-color: var(--secondary_color);
+    border-radius: var(--border-radius);
+    color: black;
+      grid-row-end: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#experience span{
+    font-size: 1.2rem;
+}
+img {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}
