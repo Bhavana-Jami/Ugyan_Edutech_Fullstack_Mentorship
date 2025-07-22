@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript + DOM = Real Web Power</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding: 40px;
+            border: 2px solid #000;
+            background: #fff;
+        }
+
+        .section.dark {
+            background: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 5px solid #000;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .objective {
+            background: #f5f5f5;
+            padding: 20px;
+            border-left: 5px solid #000;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ccc;
+        }
+
+        pre {
+            background: #f8f8f8;
+            padding: 20px;
+            border: 1px solid #000;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .demo-box {
+            border: 2px dashed #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        input {
+            border: 2px solid #000;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            background: #f5f5f5;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 3px solid #000;
+            color: #000;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .counter-display {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            z-index: 1000;
+        }
+
+        .navigation a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .navigation a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            background: #000;
+            color: #fff;
+            padding: 2px 6px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- <div class="navigation">
+        <strong>Navigation</strong>
+        <a href="#intro">Introduction</a>
+        <a href="#dom">What is DOM?</a>
+        <a href="#selecting">Selecting Elements</a>
+        <a href="#events">Event Listeners</a>
+        <a href="#counter">Counter App</a>
+        <a href="#todo">To-Do List</a>
+        <a href="#homework">Homework</a>
+    </div> -->
+
+    <!-- Introduction -->
+    <section id="intro" class="section dark">
+        <h1>🟢 JavaScript + DOM = Real Web Power</h1>
+        <div class="objective">
+            <h3>🎯 Objective:</h3>
+            <p>Introduce how JavaScript interacts with real web pages using the Document Object Model (DOM). Build interactive projects like a To-Do List and Counter App.</p>
+        </div>
+        <div class="time-badge">🕒 Total Time: ~90 mins</div>
+    </section>
+
+    <!-- Part 1: What is the DOM? -->
+    <section id="dom" class="section">
+        <div class="time-badge">10 mins</div>
+        <h2>🌐 Part 1: What is the DOM?</h2>
+        
+        <h3>Key Concepts:</h3>
+        <ul>
+            <li><strong>DOM = Document Object Model</strong> — JS's way of accessing and modifying HTML</li>
+            <li>HTML elements become <span class="highlight">objects</span> JS can work with</li>
+            <li>Think of it as a bridge between HTML and JavaScript</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>🔍 Visual Demo:</h3>
+            <p>Open DevTools → Console and try these commands:</p>
+            <pre><code>document.body
+document.querySelector("h1")
+document.getElementById("demo-heading")</code></pre>
+            
+            <h1 id="demo-heading">Hello DOM!</h1>
+            <button onclick="demonstrateDOM()">Try DOM Access</button>
+            <p id="dom-result"></p>
+        </div>
+    </section>
+
+    <!-- Part 2: Selecting Elements -->
+    <section id="selecting" class="section">
+        <div class="time-badge">15 mins</div>
+        <h2>🖱️ Part 2: Selecting Elements & Changing Them</h2>
+        
+        <h3>Methods to Learn:</h3>
+        <ul>
+            <li><code>getElementById()</code></li>
+            <li><code>querySelector()</code></li>
+            <li><code>innerText</code>, <code>innerHTML</code>, <code>style</code></li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>Example:</h3>
+            <pre><code>&lt;h1 id="heading"&gt;Hello&lt;/h1&gt;
+&lt;button onclick="changeText()"&gt;Change&lt;/button&gt;
+
+&lt;script&gt;
+function changeText() {
+  document.getElementById("heading").innerText = "Welcome!";
+}
+&lt;/script&gt;</code></pre>
+
+            <h1 id="demo-heading-2">Hello</h1>
+            <button onclick="changeText()">Change Text</button>
+            <button onclick="changeStyle()">Change Style</button>
+        </div>
+
+        <div class="demo-box">
+            <h3>👉 Mini Task: Background Color Changer</h3>
+            <div id="color-box" style="width: 200px; height: 100px; background: #f0f0f0; border: 2px solid #000; margin: 10px 0;"></div>
+            <button onclick="changeBackground()">Change Background</button>
+        </div>
+    </section>
+
+    <!-- Part 3: Event Listeners -->
+    <section id="events" class="section">
+        <div class="time-badge">15 mins</div>
+        <h2>📣 Part 3: Event Listeners</h2>
+        
+        <h3>Key Concepts:</h3>
+        <ul>
+            <li><strong>Events:</strong> click, mouseover, input, submit</li>
+            <li><code>addEventListener()</code> usage</li>
+            <li>More flexible than onclick</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>Example:</h3>
+            <pre><code>const btn = document.querySelector("button");
+btn.addEventListener("click", () => {
+  alert("You clicked me!");
+});</code></pre>
+
+            <button id="event-demo-btn">Click Me!</button>
+        </div>
+
+        <div class="demo-box">
+            <h3>👉 Mini Task: Page Color Changer</h3>
+            <p>Current background: <span id="current-color">White</span></p>
+            <button id="color-changer">Change Page Color</button>
+        </div>
+    </section>
+
+    <!-- Part 4: Counter App -->
+    <section id="counter" class="section">
+        <div class="time-badge">20 mins</div>
+        <h2>🧠 Part 4: Practice Task – Counter App</h2>
+        
+        <div class="objective">
+            <h3>Objective:</h3>
+            <p>Build a simple app with: A number display, Increment and Decrement buttons</p>
+        </div>
+
+        <div class="demo-box">
+            <h3>HTML Structure:</h3>
+            <pre><code>&lt;h2 id="count"&gt;0&lt;/h2&gt;
+&lt;button id="inc"&gt;+&lt;/button&gt;
+&lt;button id="dec"&gt;-&lt;/button&gt;</code></pre>
+
+            <h3>JavaScript Logic:</h3>
+            <pre><code>let count = 0;
+document.getElementById("inc").addEventListener("click", () => {
+  count++;
+  document.getElementById("count").innerText = count;
+});</code></pre>
+        </div>
+
+        <div class="demo-box">
+            <h3>🔨 Working Counter App:</h3>
+            <div class="counter-display" id="count">0</div>
+            <button id="inc">+ Increment</button>
+            <button id="dec">- Decrement</button>
+            <button id="reset">Reset</button>
+        </div>
+    </section>
+
+    <!-- Part 5: To-Do List -->
+    <section id="todo" class="section">
+        <div class="time-badge">30 mins</div>
+        <h2>🔨 Part 5: Mini Project – To-Do List</h2>
+        
+        <div class="objective">
+            <h3>Features:</h3>
+            <ul>
+                <li>Input field for new tasks</li>
+                <li>Add button</li>
+                <li>Show list of items</li>
+                <li>Delete functionality</li>
+            </ul>
+        </div>
+
+        <div class="demo-box">
+            <h3>HTML Structure:</h3>
+            <pre><code>&lt;input type="text" id="taskInput" placeholder="Enter task" /&gt;
+&lt;button id="addBtn"&gt;Add&lt;/button&gt;
+&lt;ul id="taskList"&gt;&lt;/ul&gt;</code></pre>
+
+            <h3>JavaScript Hints:</h3>
+            <ul>
+                <li>Get input value</li>
+                <li>Create <code>li</code> element dynamically</li>
+                <li>Append to <code>ul</code></li>
+            </ul>
+        </div>
+
+        <div class="demo-box">
+            <h3>🚀 Working To-Do List:</h3>
+            <input type="text" id="taskInput" placeholder="Enter your task here..." />
+            <button id="addBtn">Add Task</button>
+            <ul id="taskList"></ul>
+        </div>
+    </section>
+
+    <!-- Wrap-up -->
+    <section id="homework" class="section dark">
+        <div class="time-badge">5 mins</div>
+        <h2>✅ Wrap-Up & Homework</h2>
+        
+        <h3>📝 Recap:</h3>
+        <ul>
+            <li><strong>DOM</strong> = way to connect JS with HTML</li>
+            <li><code>getElementById</code>, <code>querySelector</code>, <code>addEventListener</code></li>
+            <li>Interactive web pages are possible!</li>
+        </ul>
+
+        <h3>🏠 Homework:</h3>
+        <ul>
+            <li>Add delete button to your To-Do List items</li>
+            <li>Try changing styles dynamically (font size, colors)</li>
+            <li>Experiment with different event types (mouseover, keypress)</li>
+            <li><strong>Challenge:</strong> Add a "Mark as Complete" feature to the To-Do List</li>
+        </ul>
+
+        <div class="demo-box" style="background: #333; color: #fff;">
+            <h3>🎉 Great Job!</h3>
+            <p>You've learned the fundamentals of DOM manipulation. Keep practicing and building!</p>
+        </div>
+    </section>
+
+    <script>
+        // Part 1: DOM Demonstration
+        function demonstrateDOM() {
+            const result = document.getElementById('dom-result');
+            result.innerHTML = `
+                <strong>DOM Access Results:</strong><br>
+                • document.body.tagName: ${document.body.tagName}<br>
+                • document.title: ${document.title}<br>
+                • Total elements: ${document.querySelectorAll('*').length}
+            `;
+        }
+
+        // Part 2: Text and Style Changes
+        function changeText() {
+            const heading = document.getElementById('demo-heading-2');
+            heading.innerText = heading.innerText === 'Hello' ? 'Welcome!' : 'Hello';
+        }
+
+        function changeStyle() {
+            const heading = document.getElementById('demo-heading-2');
+            heading.style.color = heading.style.color === 'red' ? 'black' : 'red';
+        }
+
+        function changeBackground() {
+            const box = document.getElementById('color-box');
+            const colors = ['#ffcccb', '#add8e6', '#90ee90', '#ffd700', '#dda0dd'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            box.style.background = randomColor;
+        }
+
+        // Part 3: Event Listeners
+        document.getElementById('event-demo-btn').addEventListener('click', () => {
+            alert('You clicked me! This is an event listener in action.');
+        });
+
+        // Page color changer
+        const colorChanger = document.getElementById('color-changer');
+        const currentColorSpan = document.getElementById('current-color');
+        const pageColors = [
+            { bg: '#ffffff', name: 'White' },
+            { bg: '#f0f0f0', name: 'Light Gray' },
+            { bg: '#e6f3ff', name: 'Light Blue' },
+            { bg: '#f0fff0', name: 'Light Green' }
+        ];
+        let currentColorIndex = 0;
+
+        colorChanger.addEventListener('click', () => {
+            currentColorIndex = (currentColorIndex + 1) % pageColors.length;
+            document.body.style.backgroundColor = pageColors[currentColorIndex].bg;
+            currentColorSpan.textContent = pageColors[currentColorIndex].name;
+        });
+
+        // Part 4: Counter App
+        let count = 0;
+        const countDisplay = document.getElementById('count');
+        const incBtn = document.getElementById('inc');
+        const decBtn = document.getElementById('dec');
+        const resetBtn = document.getElementById('reset');
+
+        incBtn.addEventListener('click', () => {
+            count++;
+            countDisplay.textContent = count;
+        });
+
+        decBtn.addEventListener('click', () => {
+            count--;
+            countDisplay.textContent = count;
+        });
+
+        resetBtn.addEventListener('click', () => {
+            count = 0;
+            countDisplay.textContent = count;
+        });
+
+        // Part 5: To-Do List
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div class="task-item">
+                    <span>${taskText}</span>
+                    <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+                </div>
+            `;
+            
+            taskList.appendChild(li);
+            taskInput.value = '';
+        }
+
+        function deleteTask(button) {
+            const li = button.closest('li');
+            li.remove();
+        }
+
+        addBtn.addEventListener('click', addTask);
+
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

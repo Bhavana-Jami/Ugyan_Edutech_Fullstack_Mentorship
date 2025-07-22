@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript for Absolute Beginners</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border: 2px solid #000;
+            background: #fff;
+        }
+
+        .section.dark {
+            background: #000;
+            color: #fff;
+        }
+
+        .section.highlight {
+            background: #f8f8f8;
+            border-style: dashed;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 5px solid #000;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .objective {
+            background: #f5f5f5;
+            padding: 20px;
+            border-left: 5px solid #000;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .emoji-badge {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: #f8f8f8;
+            padding: 20px;
+            border: 2px solid #000;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .demo-box {
+            border: 2px dashed #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+
+        .interactive-box {
+            border: 3px solid #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fff;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin: 8px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        button.secondary {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        button.secondary:hover {
+            background: #f0f0f0;
+        }
+
+        input, textarea {
+            border: 2px solid #000;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            margin: 8px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #000;
+            margin: 10px 0;
+            min-height: 100px;
+            overflow-y: auto;
+        }
+
+        .task-box {
+            background: #fff;
+            border: 3px solid #000;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .task-box h3 {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            background: #f5f5f5;
+            margin: 8px 0;
+            padding: 12px;
+            border-left: 4px solid #000;
+            color: #000;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            padding: 15px;
+            z-index: 1000;
+            max-width: 200px;
+        }
+
+        .navigation a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin: 8px 0;
+            padding: 5px;
+        }
+
+        .navigation a:hover {
+            background: #333;
+        }
+
+        .highlight-text {
+            background: #000;
+            color: #fff;
+            padding: 3px 8px;
+            font-weight: bold;
+        }
+
+        .challenge-section {
+            background: #000;
+            color: #fff;
+            border: 3px solid #fff;
+        }
+
+        .challenge-section h2, .challenge-section h3 {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .result-display {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- <div class="navigation">
+        <strong>📚 Navigation</strong>
+        <a href="#intro">Introduction</a>
+        <a href="#what-is-js">What is JS?</a>
+        <a href="#syntax">Syntax Basics</a>
+        <a href="#control-flow">Control Flow</a>
+        <a href="#functions">Functions</a>
+        <a href="#arrays-objects">Arrays & Objects</a>
+        <a href="#challenge">Mini Challenge</a>
+        <a href="#wrap-up">Wrap-Up</a>
+    </div> -->
+
+    <!-- Introduction -->
+    <section id="intro" class="section dark">
+        <h1>🟡 JavaScript Introduction</h1>
+        <div class="objective">
+            <h3>🎯 Objective:</h3>
+            <p>Introduce core JavaScript concepts in a beginner-friendly, practical way — get them excited to explore JS more!</p>
+        </div>
+        <div class="time-badge">🕒 Total Time: ~60–90 minutes</div>
+        <div style="text-align: center; margin-top: 30px;">
+            <h3>Welcome to the world of JavaScript! 🚀</h3>
+            <p>Let's make websites come alive with code!</p>
+        </div>
+    </section>
+
+    <!-- Part 1: What is JavaScript? -->
+    <section id="what-is-js" class="section">
+        <div class="time-badge">10 mins</div>
+        <div class="emoji-badge">🧠</div>
+        <h2>Part 1: What is JavaScript?</h2>
+        
+        <h3>Key Points:</h3>
+        <ul>
+            <li><strong>JavaScript is a programming language for the web</strong></li>
+            <li>Runs in browsers (like Chrome, Firefox, Safari)</li>
+            <li>Works with HTML & CSS to make websites <span class="highlight-text">interactive</span></li>
+            <li>Powers everything from simple buttons to complex web applications</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>🎬 Live Demo:</h3>
+            <p><strong>Before JavaScript:</strong> Static button that does nothing</p>
+            <button class="secondary" disabled>Static Button</button>
+            
+            <p><strong>After JavaScript:</strong> Interactive button with functionality!</p>
+            <button onclick="showWelcomeAlert()">Click me!</button>
+            
+            <pre><code>&lt;button onclick="alert('Hello, JavaScript!')"&gt;Click me&lt;/button&gt;</code></pre>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Try It Yourself:</h3>
+            <p>Click the button below to see JavaScript in action:</p>
+            <button onclick="demonstrateJS()">Experience JavaScript Magic!</button>
+            <div id="js-demo-result"></div>
+        </div>
+    </section>
+
+    <!-- Part 2: Syntax Basics -->
+    <section id="syntax" class="section">
+        <div class="time-badge">15 mins</div>
+        <div class="emoji-badge">🔣</div>
+        <h2>Part 2: JS Syntax Basics</h2>
+        
+        <h3>Topics We'll Cover:</h3>
+        <ul>
+            <li><strong>Variables:</strong> <code>let</code>, <code>const</code></li>
+            <li><strong>Data types:</strong> string, number, boolean</li>
+            <li><strong>Operators:</strong> +, -, *, /, %, ==, ===</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>📝 Example Code:</h3>
+            <pre><code>let name = "Bhavana";
+const age = 23;
+let isStudent = true;
+
+console.log(name, age, isStudent);</code></pre>
+            
+            <button onclick="runSyntaxExample()">Run This Code</button>
+            <div class="console-output" id="syntax-console"></div>
+        </div>
+
+        <div class="task-box">
+            <h3>👉 Mini Task: About You</h3>
+            <p>Fill in your information and see the JavaScript code in action:</p>
+            <input type="text" id="user-name" placeholder="Your name" />
+            <input type="number" id="user-age" placeholder="Your age" />
+            <input type="text" id="user-fact" placeholder="One fun fact about you" />
+            <button onclick="createPersonalInfo()">Generate My Info</button>
+            <div class="result-display" id="personal-info-result"></div>
+        </div>
+    </section>
+
+    <!-- Part 3: Control Flow -->
+    <section id="control-flow" class="section">
+        <div class="time-badge">15 mins</div>
+        <div class="emoji-badge">🔁</div>
+        <h2>Part 3: Control Flow</h2>
+        
+        <h3>What We'll Learn:</h3>
+        <ul>
+            <li><strong>if, else:</strong> Making decisions in code</li>
+            <li><strong>for loop:</strong> Repeating actions</li>
+            <li><strong>while loop:</strong> Conditional repetition</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>🗳️ Voting Age Example:</h3>
+            <pre><code>let age = 18;
+
+if (age >= 18) {
+  console.log("You can vote!");
+} else {
+  console.log("You are too young.");
+}</code></pre>
+            
+            <p>Test with different ages:</p>
+            <input type="number" id="voting-age" placeholder="Enter age" value="18" />
+            <button onclick="checkVotingAge()">Check Voting Eligibility</button>
+            <div class="console-output" id="voting-console"></div>
+        </div>
+
+        <div class="task-box">
+            <h3>👉 Mini Task: Even or Odd Loop</h3>
+            <p>Write a loop from 1 to 10 that prints whether each number is even or odd:</p>
+            <button onclick="runEvenOddLoop()">Run Even/Odd Loop</button>
+            <div class="console-output" id="even-odd-console"></div>
+            
+            <h4>The Code:</h4>
+            <pre><code>for (let i = 1; i <= 10; i++) {
+  if (i % 2 === 0) {
+    console.log(i + " is even");
+  } else {
+    console.log(i + " is odd");
+  }
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- Part 4: Functions -->
+    <section id="functions" class="section">
+        <div class="time-badge">10 mins</div>
+        <div class="emoji-badge">📦</div>
+        <h2>Part 4: Functions</h2>
+        
+        <h3>Why Functions?</h3>
+        <ul>
+            <li><strong>Reusability:</strong> Write once, use many times</li>
+            <li><strong>Organization:</strong> Keep code neat and organized</li>
+            <li><strong>Parameters:</strong> Make functions flexible</li>
+        </ul>
+
+        <div class="demo-box">
+            <h3>👋 Greeting Function Example:</h3>
+            <pre><code>function greet(name) {
+  console.log("Hello, " + name);
+}
+
+greet("Aisha");</code></pre>
+            
+            <p>Try greeting someone:</p>
+            <input type="text" id="greeting-name" placeholder="Enter a name" value="Aisha" />
+            <button onclick="runGreetingFunction()">Say Hello!</button>
+            <div class="console-output" id="greeting-console"></div>
+        </div>
+
+        <div class="task-box">
+            <h3>👉 Task: Square Function</h3>
+            <p>Create a function that takes a number and prints its square:</p>
+            <input type="number" id="square-number" placeholder="Enter a number" value="5" />
+            <button onclick="calculateSquare()">Calculate Square</button>
+            <div class="result-display" id="square-result"></div>
+            
+            <h4>The Function:</h4>
+            <pre><code>function square(number) {
+  let result = number * number;
+  console.log(number + " squared is " + result);
+  return result;
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- Part 5: Arrays & Objects -->
+    <section id="arrays-objects" class="section">
+        <div class="time-badge">15 mins</div>
+        <div class="emoji-badge">📚</div>
+        <h2>Part 5: Arrays & Objects</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <h3>📋 Arrays:</h3>
+                <pre><code>let fruits = ["apple", "banana", "orange"];
+console.log(fruits[1]); // banana</code></pre>
+                
+                <button onclick="demonstrateArrays()">Show Array Demo</button>
+                <div class="console-output" id="array-console"></div>
+            </div>
+            
+            <div>
+                <h3>🏷️ Objects:</h3>
+                <pre><code>let student = {
+  name: "Rahul",
+  age: 20,
+  isActive: true
+};
+console.log(student.name);</code></pre>
+                
+                <button onclick="demonstrateObjects()">Show Object Demo</button>
+                <div class="console-output" id="object-console"></div>
+            </div>
+        </div>
+
+        <div class="task-box">
+            <h3>👉 Mini Task: Create Your Object</h3>
+            <p>Fill in your information to create a JavaScript object:</p>
+            <input type="text" id="obj-name" placeholder="Your name" />
+            <input type="number" id="obj-age" placeholder="Your age" />
+            <input type="text" id="obj-hobbies" placeholder="Your hobbies (comma-separated)" />
+            <button onclick="createPersonalObject()">Create My Object</button>
+            <div class="result-display" id="object-result"></div>
+        </div>
+    </section>
+
+    <!-- Part 6: Mini Challenge -->
+    <section id="challenge" class="section challenge-section">
+        <div class="time-badge">15-20 mins</div>
+        <div class="emoji-badge">🧪</div>
+        <h2>Part 6: Hands-on Mini Challenge</h2>
+        
+        <div class="objective">
+            <h3>💡 "Build a Student Info App"</h3>
+            <p><strong>Goal:</strong> Create an object with your info and a function that creates a nice introduction sentence!</p>
+            <p><strong>Example output:</strong> "Hi, I'm Bhavana, 22 years old, studying at XYZ College. I love Math!"</p>
+        </div>
+
+        <div class="interactive-box" style="background: #fff; color: #000;">
+            <h3>🚀 Student Info Generator</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <input type="text" id="student-name" placeholder="Your name" />
+                <input type="number" id="student-age" placeholder="Your age" />
+                <input type="text" id="student-college" placeholder="Your college" />
+                <input type="text" id="student-subject" placeholder="Favorite subject" />
+            </div>
+            <button onclick="generateStudentInfo()" style="margin-top: 15px;">Generate My Introduction!</button>
+            <div class="result-display" id="student-info-result"></div>
+            
+            <h4>The Code Behind This:</h4>
+            <pre><code>let student = {
+  name: "Your Name",
+  age: 22,
+  college: "Your College",
+  favSubject: "Your Subject"
+};
+
+function createIntroduction(studentObj) {
+  return `Hi, I'm ${studentObj.name}, ${studentObj.age} years old, 
+          studying at ${studentObj.college}. I love ${studentObj.favSubject}!`;
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- Wrap-Up -->
+    <section id="wrap-up" class="section dark">
+        <div class="time-badge">5 mins</div>
+        <div class="emoji-badge">✅</div>
+        <h2>Wrap-Up & Next Steps</h2>
+        
+        <h3>🎉 What You've Learned Today:</h3>
+        <ul>
+            <li>✅ What JavaScript is and why it's awesome</li>
+            <li>✅ Variables, data types, and operators</li>
+            <li>✅ Control flow (if/else, loops)</li>
+            <li>✅ Functions and why they're useful</li>
+            <li>✅ Arrays and objects for storing data</li>
+            <li>✅ Built a real mini project!</li>
+        </ul>
+
+        <h3>🛠️ Tools to Practice:</h3>
+        <ul>
+            <li><strong>JSFiddle:</strong> jsfiddle.net</li>
+            <li><strong>CodePen:</strong> codepen.io</li>
+            <li><strong>Replit:</strong> replit.com</li>
+            <li><strong>Browser Console:</strong> F12 → Console tab</li>
+        </ul>
+
+        <h3>🏠 Homework Challenges:</h3>
+        <div class="task-box">
+            <h3>Your Mission (If You Choose to Accept It):</h3>
+            <ol style="list-style: decimal; padding-left: 20px;">
+                <li><strong>Calculator Function:</strong> Write a function that returns the sum of two numbers</li>
+                <li><strong>Shopping List:</strong> Create a shopping list array and print all items with a loop</li>
+                <li><strong>Bonus:</strong> Create a function that finds the largest number in an array</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <h3>🚀 Next Session Preview:</h3>
+            <p><strong>DOM Manipulation</strong> - Making websites interactive!</p>
+            <p>We'll learn how to change HTML with JavaScript and build real interactive web pages!</p>
+        </div>
+    </section>
+
+    <script>
+        // Utility function to clear and write to console
+        function writeToConsole(elementId, message) {
+            const console = document.getElementById(elementId);
+            console.innerHTML += message + '<br>';
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearConsole(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        // Part 1: JavaScript Demo
+        function showWelcomeAlert() {
+            alert('Hello, JavaScript! Welcome to programming! 🎉');
+        }
+
+        function demonstrateJS() {
+            const result = document.getElementById('js-demo-result');
+            const messages = [
+                "🎯 JavaScript can change text!",
+                "🎨 JavaScript can change colors!",
+                "🔢 JavaScript can do math: 5 + 3 = " + (5 + 3),
+                "📅 JavaScript knows the time: " + new Date().toLocaleTimeString()
+            ];
+            
+            let currentMessage = 0;
+            result.innerHTML = messages[currentMessage];
+            result.style.background = '#f0f0f0';
+            result.style.padding = '15px';
+            result.style.border = '2px solid #000';
+            result.style.margin = '10px 0';
+            
+            const interval = setInterval(() => {
+                currentMessage++;
+                if (currentMessage < messages.length) {
+                    result.innerHTML = messages[currentMessage];
+                    result.style.background = currentMessage % 2 === 0 ? '#f0f0f0' : '#e6f3ff';
+                } else {
+                    clearInterval(interval);
+                    result.innerHTML += "<br><strong>That's the power of JavaScript! 🚀</strong>";
+                }
+            }, 1500);
+        }
+
+        // Part 2: Syntax Examples
+        function runSyntaxExample() {
+            clearConsole('syntax-console');
+            writeToConsole('syntax-console', '> let name = "Bhavana";');
+            writeToConsole('syntax-console', '> const age = 23;');
+            writeToConsole('syntax-console', '> let isStudent = true;');
+            writeToConsole('syntax-console', '> console.log(name, age, isStudent);');
+            writeToConsole('syntax-console', 'Bhavana 23 true');
+        }
+
+        function createPersonalInfo() {
+            const name = document.getElementById('user-name').value || 'Anonymous';
+            const age = document.getElementById('user-age').value || '0';
+            const fact = document.getElementById('user-fact').value || 'I love coding';
+            
+            const result = document.getElementById('personal-info-result');
+            result.innerHTML = `
+                <strong>Your JavaScript Variables:</strong><br>
+                let name = "${name}";<br>
+                const age = ${age};<br>
+                let funFact = "${fact}";<br><br>
+                <strong>Output:</strong><br>
+                Name: ${name}<br>
+                Age: ${age}<br>
+                Fun Fact: ${fact}
+            `;
+        }
+
+        // Part 3: Control Flow
+        function checkVotingAge() {
+            const age = parseInt(document.getElementById('voting-age').value);
+            clearConsole('voting-console');
+            writeToConsole('voting-console', `> let age = ${age};`);
+            writeToConsole('voting-console', '> if (age >= 18) {');
+            writeToConsole('voting-console', '>   console.log("You can vote!");');
+            writeToConsole('voting-console', '> } else {');
+            writeToConsole('voting-console', '>   console.log("You are too young.");');
+            writeToConsole('voting-console', '> }');
+            
+            if (age >= 18) {
+                writeToConsole('voting-console', 'You can vote! 🗳️');
+            } else {
+                writeToConsole('voting-console', 'You are too young. 👶');
+            }
+        }
+
+        function runEvenOddLoop() {
+            clearConsole('even-odd-console');
+            writeToConsole('even-odd-console', '> Running loop from 1 to 10...');
+            
+            for (let i = 1; i <= 10; i++) {
+                setTimeout(() => {
+                    if (i % 2 === 0) {
+                        writeToConsole('even-odd-console', `${i} is even`);
+                    } else {
+                        writeToConsole('even-odd-console', `${i} is odd`);
+                    }
+                }, i * 200);
+            }
+        }
+
+        // Part 4: Functions
+        function runGreetingFunction() {
+            const name = document.getElementById('greeting-name').value || 'World';
+            clearConsole('greeting-console');
+            writeToConsole('greeting-console', `> greet("${name}");`);
+            writeToConsole('greeting-console', `Hello, ${name}! 👋`);
+        }
+
+        function calculateSquare() {
+            const number = parseInt(document.getElementById('square-number').value) || 0;
+            const result = number * number;
+            
+            document.getElementById('square-result').innerHTML = `
+                <strong>Function Call:</strong> square(${number})<br>
+                <strong>Calculation:</strong> ${number} × ${number} = ${result}<br>
+                <strong>Output:</strong> "${number} squared is ${result}"
+            `;
+        }
+
+        // Part 5: Arrays & Objects
+        function demonstrateArrays() {
+            clearConsole('array-console');
+            const fruits = ["apple", "banana", "orange"];
+            writeToConsole('array-console', '> let fruits = ["apple", "banana", "orange"];');
+            writeToConsole('array-console', '> console.log(fruits[1]);');
+            writeToConsole('array-console', fruits[1]);
+            writeToConsole('array-console', '> console.log("Array length:", fruits.length);');
+            writeToConsole('array-console', `Array length: ${fruits.length}`);
+        }
+
+        function demonstrateObjects() {
+            clearConsole('object-console');
+            writeToConsole('object-console', '> let student = {');
+            writeToConsole('object-console', '>   name: "Rahul",');
+            writeToConsole('object-console', '>   age: 20,');
+            writeToConsole('object-console', '>   isActive: true');
+            writeToConsole('object-console', '> };');
+            writeToConsole('object-console', '> console.log(student.name);');
+            writeToConsole('object-console', 'Rahul');
+        }
+
+        function createPersonalObject() {
+            const name = document.getElementById('obj-name').value || 'Anonymous';
+            const age = document.getElementById('obj-age').value || '0';
+            const hobbies = document.getElementById('obj-hobbies').value || 'coding';
+            const hobbiesArray = hobbies.split(',').map(h => h.trim());
+            
+            const result = document.getElementById('object-result');
+            result.innerHTML = `
+                <strong>Your JavaScript Object:</strong><br>
+                let myInfo = {<br>
+                &nbsp;&nbsp;name: "${name}",<br>
+                &nbsp;&nbsp;age: ${age},<br>
+                &nbsp;&nbsp;hobbies: [${hobbiesArray.map(h => `"${h}"`).join(', ')}]<br>
+                };<br><br>
+                <strong>Accessing Properties:</strong><br>
+                myInfo.name → "${name}"<br>
+                myInfo.hobbies[0] → "${hobbiesArray[0]}"
+            `;
+        }
+
+        // Part 6: Challenge
+        function generateStudentInfo() {
+            const name = document.getElementById('student-name').value || 'Student';
+            const age = document.getElementById('student-age').value || '20';
+            const college = document.getElementById('student-college').value || 'University';
+            const subject = document.getElementById('student-subject').value || 'Computer Science';
+            
+            const student = {
+                name: name,
+                age: age,
+                college: college,
+                favSubject: subject
+            };
+            
+            const introduction = `Hi, I'm ${student.name}, ${student.age} years old, studying at ${student.college}. I love ${student.favSubject}!`;
+            
+            const result = document.getElementById('student-info-result');
+            result.innerHTML = `
+                <strong>Your Student Object:</strong><br>
+                <pre>let student = {
+  name: "${student.name}",
+  age: ${student.age},
+  college: "${student.college}",
+  favSubject: "${student.favSubject}"
+};</pre><br>
+                <strong>Generated Introduction:</strong><br>
+                <div style="background: #e6f3ff; padding: 15px; border: 2px solid #000; font-size: 1.1rem;">
+                    "${introduction}"
+                </div>
+            `;
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Initialize some demo content
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pre-fill some example values
+            document.getElementById('user-name').value = 'Bhavana';
+            document.getElementById('user-age').value = '23';
+            document.getElementById('user-fact').value = 'I love solving puzzles';
+        });
+    </script>
+</body>
+</html>
