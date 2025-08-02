@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programming vs HTML: Execution vs Rendering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 3px solid #000;
+            background: #f8f8f8;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .language-section {
+            border: 3px solid #000;
+            background: #fff;
+        }
+
+        .language-header {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .language-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .language-content {
+            padding: 20px;
+        }
+
+        .process-flow {
+            margin: 20px 0;
+        }
+
+        .step {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .step-number {
+            background: #000;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-left: 20px;
+        }
+
+        .step-description {
+            margin-left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #f8f8f8;
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-title {
+            background: #000;
+            color: #fff;
+            padding: 8px 15px;
+            margin: -15px -15px 15px -15px;
+            font-weight: bold;
+        }
+
+        .arrow-down {
+            text-align: center;
+            font-size: 2rem;
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .output-box {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border: 2px solid #000;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .browser-window {
+            border: 3px solid #000;
+            background: #fff;
+            margin: 15px 0;
+        }
+
+        .browser-header {
+            background: #f0f0f0;
+            padding: 10px;
+            border-bottom: 2px solid #000;
+            display: flex;
+            align-items: center;
+        }
+
+        .browser-buttons {
+            display: flex;
+            gap: 5px;
+            margin-right: 15px;
+        }
+
+        .browser-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #000;
+        }
+
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27ca3f; }
+
+        .browser-url {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 5px 10px;
+            flex: 1;
+            font-size: 0.8rem;
+        }
+
+        .browser-content {
+            padding: 20px;
+            min-height: 150px;
+        }
+
+        .key-differences {
+            margin-top: 40px;
+            border: 3px solid #000;
+            background: #f8f8f8;
+        }
+
+        .differences-header {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .differences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .difference-item {
+            padding: 20px;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        .difference-item:nth-child(even) {
+            border-right: none;
+        }
+
+        .difference-item:last-child,
+        .difference-item:nth-last-child(2) {
+            border-bottom: none;
+        }
+
+        .difference-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .interactive-demo {
+            margin-top: 40px;
+            border: 3px solid #000;
+            background: #fff;
+        }
+
+        .demo-header {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .demo-content {
+            padding: 20px;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .demo-area {
+            border: 2px dashed #000;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 200px;
+            background: #fafafa;
+        }
+
+        .highlight {
+            background: #ffff00;
+            padding: 2px 4px;
+        }
+
+        .execution-type {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 5px 15px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid,
+            .differences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>C Programming vs HTML</h1>
+            <p><strong>Execution vs Rendering: A Visual Comparison</strong></p>
+            <p>Understanding how different types of languages work</p>
+        </div>
+
+        <!-- Main Comparison -->
+        <div class="comparison-grid">
+            <!-- C Programming Section -->
+            <div class="language-section">
+                <div class="language-header">
+                    <h2>🔧 C Programming</h2>
+                    <div class="execution-type">COMPILED & EXECUTED</div>
+                    <p>Traditional Programming Language</p>
+                </div>
+                
+                <div class="language-content">
+                    <div class="code-block">
+                        <div class="code-title">hello.c (Source Code)</div>
+                        <pre>#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}</pre>
+                    </div>
+
+                    <div class="process-flow">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Write Source Code</div>
+                            <div class="step-description">Human-readable C code written in .c file</div>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Compilation</div>
+                            <div class="step-description">Compiler (gcc) converts source to machine code</div>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-title">Terminal Command</div>
+                            <pre>$ gcc hello.c -o hello</pre>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Machine Code Generated</div>
+                            <div class="step-description">Binary executable file created (hello.exe)</div>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Execution</div>
+                            <div class="step-description">Operating system runs the binary file</div>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-title">Terminal Command</div>
+                            <pre>$ ./hello</pre>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="output-box">
+                            <strong>Console Output:</strong><br>
+                            Hello, World!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HTML Section -->
+            <div class="language-section">
+                <div class="language-header">
+                    <h2>🌐 HTML</h2>
+                    <div class="execution-type">INTERPRETED & RENDERED</div>
+                    <p>Markup Language</p>
+                </div>
+                
+                <div class="language-content">
+                    <div class="code-block">
+                        <div class="code-title">index.html (Source Code)</div>
+                        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+
+                    <div class="process-flow">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Write HTML Code</div>
+                            <div class="step-description">Markup code written in .html file</div>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Browser Request</div>
+                            <div class="step-description">Browser loads the HTML file directly</div>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-title">Browser Action</div>
+                            <pre>Open file://path/to/index.html</pre>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Parsing & DOM Creation</div>
+                            <div class="step-description">Browser parses HTML and creates DOM tree</div>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Rendering</div>
+                            <div class="step-description">Browser renders visual representation</div>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="browser-window">
+                            <div class="browser-header">
+                                <div class="browser-buttons">
+                                    <div class="browser-button red"></div>
+                                    <div class="browser-button yellow"></div>
+                                    <div class="browser-button green"></div>
+                                </div>
+                                <div class="browser-url">file://index.html</div>
+                            </div>
+                            <div class="browser-content">
+                                <h1>Hello, World!</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Differences -->
+        <div class="key-differences">
+            <div class="differences-header">
+                <h2>🔍 Key Differences</h2>
+            </div>
+            <div class="differences-grid">
+                <div class="difference-item">
+                    <div class="difference-title">C Programming</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li><strong>Type:</strong> Programming Language</li>
+                        <li><strong>Process:</strong> Compile → Execute</li>
+                        <li><strong>Output:</strong> Machine code binary</li>
+                        <li><strong>Runtime:</strong> Operating System</li>
+                        <li><strong>Speed:</strong> Very fast execution</li>
+                        <li><strong>Platform:</strong> Platform-specific</li>
+                    </ul>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-title">HTML</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li><strong>Type:</strong> Markup Language</li>
+                        <li><strong>Process:</strong> Parse → Render</li>
+                        <li><strong>Output:</strong> Visual webpage</li>
+                        <li><strong>Runtime:</strong> Web Browser</li>
+                        <li><strong>Speed:</strong> Interpreted in real-time</li>
+                        <li><strong>Platform:</strong> Cross-platform</li>
+                    </ul>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-title">Compilation</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li>Requires compiler (gcc, clang)</li>
+                        <li>Creates executable file</li>
+                        <li>Errors caught at compile time</li>
+                        <li>Source code not needed for execution</li>
+                    </ul>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-title">Interpretation</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li>No compilation step needed</li>
+                        <li>Source code directly processed</li>
+                        <li>Errors found during rendering</li>
+                        <li>Source code always needed</li>
+                    </ul>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-title">Purpose</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li>System programming</li>
+                        <li>Applications & software</li>
+                        <li>Operating systems</li>
+                        <li>Performance-critical code</li>
+                    </ul>
+                </div>
+                <div class="difference-item">
+                    <div class="difference-title">Purpose</div>
+                    <ul style="list-style: disc; padding-left: 20px;">
+                        <li>Web page structure</li>
+                        <li>Content presentation</li>
+                        <li>Document markup</li>
+                        <li>User interfaces</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="interactive-demo">
+            <div class="demo-header">
+                <h2>🎮 Interactive Demonstration</h2>
+                <p>See the difference in action!</p>
+            </div>
+            <div class="demo-content">
+                <div class="demo-buttons">
+                    <button onclick="simulateCompilation()">Simulate C Compilation</button>
+                    <button onclick="simulateRendering()">Simulate HTML Rendering</button>
+                    <button onclick="resetDemo()">Reset Demo</button>
+                </div>
+                
+                <div class="demo-area" id="demo-area">
+                    <p><strong>Click a button above to see the process in action!</strong></p>
+                    <p>This area will show step-by-step how each language works.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="key-differences" style="margin-top: 40px;">
+            <div class="differences-header">
+                <h2>📝 Summary</h2>
+            </div>
+            <div style="padding: 30px;">
+                <h3>🔧 C Programming (Compiled Language):</h3>
+                <p style="margin: 15px 0;">C is a <span class="highlight">programming language</span> that gets <strong>compiled</strong> into machine code before execution. The source code is transformed into a binary executable that the operating system can run directly. This process happens <strong>before</strong> the program runs.</p>
+                
+                <h3 style="margin-top: 30px;">🌐 HTML (Markup Language):</h3>
+                <p style="margin: 15px 0;">HTML is a <span class="highlight">markup language</span> that gets <strong>interpreted and rendered</strong> by web browsers in real-time. The browser reads the HTML code and immediately converts it into a visual representation. No compilation step is needed.</p>
+                
+                <h3 style="margin-top: 30px;">🎯 Key Takeaway:</h3>
+                <p style="margin: 15px 0; font-weight: bold;">C creates programs that <em>do things</em>, while HTML creates documents that <em>display things</em>. They serve completely different purposes in the computing world!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function simulateCompilation() {
+            const demoArea = document.getElementById('demo-area');
+            demoArea.innerHTML = '<p><strong>🔧 Simulating C Compilation Process...</strong></p>';
+            
+            const steps = [
+                { text: '📝 Step 1: Reading source code (hello.c)...', delay: 1000 },
+                { text: '🔍 Step 2: Lexical analysis - breaking code into tokens...', delay: 2000 },
+                { text: '🌳 Step 3: Syntax analysis - building parse tree...', delay: 3000 },
+                { text: '🔧 Step 4: Code generation - creating machine code...', delay: 4000 },
+                { text: '💾 Step 5: Linking - creating executable file...', delay: 5000 },
+                { text: '✅ Compilation complete! Binary file "hello.exe" created.', delay: 6000 },
+                { text: '🚀 Step 6: Executing binary file...', delay: 7000 },
+                { text: '📺 Output: "Hello, World!" displayed in console', delay: 8000 }
+            ];
+            
+            steps.forEach(step => {
+                setTimeout(() => {
+                    demoArea.innerHTML += `<br>${step.text}`;
+                    demoArea.scrollTop = demoArea.scrollHeight;
+                }, step.delay);
+            });
+        }
+
+        function simulateRendering() {
+            const demoArea = document.getElementById('demo-area');
+            demoArea.innerHTML = '<p><strong>🌐 Simulating HTML Rendering Process...</strong></p>';
+            
+            const steps = [
+                { text: '📄 Step 1: Browser requests HTML file...', delay: 1000 },
+                { text: '📥 Step 2: Loading HTML content from server/file...', delay: 2000 },
+                { text: '🔍 Step 3: Parsing HTML - creating DOM tree...', delay: 3000 },
+                { text: '🎨 Step 4: Applying CSS styles (if any)...', delay: 4000 },
+                { text: '📐 Step 5: Layout calculation - positioning elements...', delay: 5000 },
+                { text: '🖼️ Step 6: Painting - rendering visual elements...', delay: 6000 },
+                { text: '✅ Rendering complete! Webpage displayed in browser.', delay: 7000 },
+                { 
+                    text: '<div style="border: 2px solid #000; padding: 15px; margin: 10px 0; background: #fff;"><h2>Hello, World!</h2><p>This is how the HTML appears!</p></div>', 
+                    delay: 8000 
+                }
+            ];
+            
+            steps.forEach(step => {
+                setTimeout(() => {
+                    demoArea.innerHTML += `<br>${step.text}`;
+                    demoArea.scrollTop = demoArea.scrollHeight;
+                }, step.delay);
+            });
+        }
+
+        function resetDemo() {
+            const demoArea = document.getElementById('demo-area');
+            demoArea.innerHTML = `
+                <p><strong>Click a button above to see the process in action!</strong></p>
+                <p>This area will show step-by-step how each language works.</p>
+            `;
+        }
+
+        // Add some visual effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate step numbers
+            const stepNumbers = document.querySelectorAll('.step-number');
+            stepNumbers.forEach((step, index) => {
+                setTimeout(() => {
+                    step.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        step.style.transform = 'scale(1)';
+                    }, 200);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
+

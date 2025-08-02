@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Access & Manipulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border: 2px solid #000;
+            background: #fff;
+        }
+
+        .section.dark {
+            background: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 5px solid #000;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .method-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+        }
+
+        .method-table th,
+        .method-table td {
+            border: 2px solid #000;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .method-table th {
+            background: #000;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .method-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: #f8f8f8;
+            padding: 20px;
+            border: 2px solid #000;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .demo-box {
+            border: 2px dashed #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+
+        .interactive-box {
+            border: 3px solid #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fff;
+        }
+
+        .playground {
+            border: 3px solid #000;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f0f0f0;
+            min-height: 200px;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin: 8px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        button.secondary {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        button.secondary:hover {
+            background: #f0f0f0;
+        }
+
+        button.danger {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        input, select {
+            border: 2px solid #000;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            margin: 8px;
+            font-size: 1rem;
+        }
+
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #000;
+            margin: 10px 0;
+            min-height: 100px;
+            overflow-y: auto;
+        }
+
+        .result-display {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            padding: 15px;
+            z-index: 1000;
+            max-width: 200px;
+        }
+
+        .navigation a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin: 8px 0;
+            padding: 5px;
+        }
+
+        .navigation a:hover {
+            background: #333;
+        }
+
+        .highlight-text {
+            background: #000;
+            color: #fff;
+            padding: 3px 8px;
+            font-weight: bold;
+        }
+
+        .demo-element {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #000;
+            background: #fff;
+        }
+
+        .dynamic-content {
+            min-height: 50px;
+            padding: 15px;
+            border: 2px dashed #000;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .emoji-badge {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- <div class="navigation">
+        <strong>🧭 Navigation</strong>
+        <a href="#intro">Introduction</a>
+        <a href="#accessing">Accessing DOM</a>
+        <a href="#manipulating">Manipulating DOM</a>
+        <a href="#content">Change Content</a>
+        <a href="#attributes">Change Attributes</a>
+        <a href="#styles">Change Styles</a>
+        <a href="#elements">Add/Remove Elements</a>
+        <a href="#playground">Interactive Playground</a>
+    </div> -->
+
+    <!-- Introduction -->
+    <section id="intro" class="section dark">
+        <h1>🌐 DOM Access & Manipulation</h1>
+        <div style="text-align: center; margin-top: 30px;">
+            <h3>Master the art of controlling web pages with JavaScript! 🎯</h3>
+            <p>Learn to select, modify, and create HTML elements dynamically</p>
+        </div>
+    </section>
+
+    <!-- Accessing the DOM -->
+    <section id="accessing" class="section">
+        <div class="emoji-badge">🔍</div>
+        <h2>3. Accessing the DOM</h2>
+        
+        <h3>🔸 Common DOM Access Methods</h3>
+        <table class="method-table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Returns</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>document.getElementById()</code></td>
+                    <td>Returns a single element with a specific ID</td>
+                    <td>Single Element</td>
+                </tr>
+                <tr>
+                    <td><code>document.getElementsByClassName()</code></td>
+                    <td>Returns an HTMLCollection of elements</td>
+                    <td>HTMLCollection</td>
+                </tr>
+                <tr>
+                    <td><code>document.getElementsByTagName()</code></td>
+                    <td>Returns elements with a given tag name</td>
+                    <td>HTMLCollection</td>
+                </tr>
+                <tr>
+                    <td><code>document.querySelector()</code></td>
+                    <td>Returns the first element that matches a CSS selector</td>
+                    <td>Single Element</td>
+                </tr>
+                <tr>
+                    <td><code>document.querySelectorAll()</code></td>
+                    <td>Returns a NodeList of elements matching a CSS selector</td>
+                    <td>NodeList</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="demo-box">
+            <h3>📝 Example Code:</h3>
+            <pre><code>const heading = document.getElementById('heading');
+const paragraph = document.querySelector('.description');
+const allButtons = document.querySelectorAll('button');</code></pre>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Try DOM Access Methods:</h3>
+            
+            <!-- Demo elements to select -->
+            <div id="demo-heading" class="demo-element">I'm a heading with ID 'demo-heading'</div>
+            <div class="description demo-element">I'm a paragraph with class 'description'</div>
+            <div class="description demo-element">I'm another element with class 'description'</div>
+            <button class="demo-button">Button 1</button>
+            <button class="demo-button">Button 2</button>
+            
+            <div class="controls-grid">
+                <button onclick="demonstrateGetById()">getElementById Demo</button>
+                <button onclick="demonstrateQuerySelector()">querySelector Demo</button>
+                <button onclick="demonstrateGetByClass()">getElementsByClassName Demo</button>
+                <button onclick="demonstrateQuerySelectorAll()">querySelectorAll Demo</button>
+            </div>
+            
+            <div class="console-output" id="access-console"></div>
+        </div>
+    </section>
+
+    <!-- Manipulating the DOM -->
+    <section id="manipulating" class="section">
+        <div class="emoji-badge">🔹</div>
+        <h2>4. Manipulating the DOM</h2>
+        <p>Now that we can select elements, let's learn how to change them!</p>
+    </section>
+
+    <!-- Change Content -->
+    <section id="content" class="section">
+        <div class="emoji-badge">📝</div>
+        <h2>🔸 Change Content</h2>
+        
+        <div class="demo-box">
+            <h3>Methods for Changing Content:</h3>
+            <ul style="list-style: disc; padding-left: 30px;">
+                <li><code>textContent</code> - Changes only the text (safe from HTML)</li>
+                <li><code>innerHTML</code> - Changes HTML content (can include tags)</li>
+            </ul>
+            
+            <pre><code>heading.textContent = "Hello, Students!";
+paragraph.innerHTML = "&lt;strong&gt;Let's learn JavaScript&lt;/strong&gt;";</code></pre>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Content Manipulation Demo:</h3>
+            
+            <div id="content-demo" class="demo-element">Original content here</div>
+            
+            <div class="controls-grid">
+                <input type="text" id="text-input" placeholder="Enter new text content" value="Hello, Students!">
+                <input type="text" id="html-input" placeholder="Enter HTML content" value="<strong>Bold Text!</strong>">
+            </div>
+            
+            <div class="controls-grid">
+                <button onclick="changeTextContent()">Change textContent</button>
+                <button onclick="changeInnerHTML()">Change innerHTML</button>
+                <button onclick="resetContent()">Reset Content</button>
+            </div>
+            
+            <div class="result-display" id="content-result"></div>
+        </div>
+    </section>
+
+    <!-- Change Attributes -->
+    <section id="attributes" class="section">
+        <div class="emoji-badge">🏷️</div>
+        <h2>🔸 Change Attributes</h2>
+        
+        <div class="demo-box">
+            <h3>Attribute Manipulation Methods:</h3>
+            <pre><code>element.setAttribute("attribute", "value");
+element.getAttribute("attribute");
+element.removeAttribute("attribute");</code></pre>
+            
+            <h4>Example:</h4>
+            <pre><code>heading.setAttribute("style", "color: blue");
+heading.setAttribute("title", "This is a tooltip");</code></pre>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Attribute Manipulation Demo:</h3>
+            
+            <img id="demo-image" src="/placeholder.svg?height=150&width=200&text=Demo Image" 
+                 alt="Demo Image" class="demo-element" style="display: block; margin: 10px 0;">
+            
+            <div class="controls-grid">
+                <input type="text" id="attr-name" placeholder="Attribute name" value="title">
+                <input type="text" id="attr-value" placeholder="Attribute value" value="This is a tooltip!">
+            </div>
+            
+            <div class="controls-grid">
+                <button onclick="setAttribute()">Set Attribute</button>
+                <button onclick="getAttribute()">Get Attribute</button>
+                <button onclick="removeAttribute()">Remove Attribute</button>
+                <button onclick="toggleClass()">Toggle Class</button>
+            </div>
+            
+            <div class="result-display" id="attribute-result"></div>
+        </div>
+    </section>
+
+    <!-- Change Styles -->
+    <section id="styles" class="section">
+        <div class="emoji-badge">🎨</div>
+        <h2>🔸 Change Styles</h2>
+        
+        <div class="demo-box">
+            <h3>Style Manipulation:</h3>
+            <pre><code>heading.style.fontSize = "2rem";
+heading.style.color = "green";
+heading.style.backgroundColor = "yellow";</code></pre>
+            
+            <p><strong>Note:</strong> CSS properties with hyphens become camelCase in JavaScript:</p>
+            <ul style="list-style: disc; padding-left: 30px;">
+                <li><code>background-color</code> → <code>backgroundColor</code></li>
+                <li><code>font-size</code> → <code>fontSize</code></li>
+                <li><code>border-radius</code> → <code>borderRadius</code></li>
+            </ul>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Style Manipulation Demo:</h3>
+            
+            <div id="style-demo" class="demo-element">Style me with JavaScript!</div>
+            
+            <div class="controls-grid">
+                <select id="style-property">
+                    <option value="color">Text Color</option>
+                    <option value="backgroundColor">Background Color</option>
+                    <option value="fontSize">Font Size</option>
+                    <option value="borderRadius">Border Radius</option>
+                    <option value="padding">Padding</option>
+                </select>
+                <input type="text" id="style-value" placeholder="Style value" value="red">
+            </div>
+            
+            <div class="controls-grid">
+                <button onclick="applyStyle()">Apply Style</button>
+                <button onclick="randomStyle()">Random Style</button>
+                <button onclick="resetStyles()">Reset Styles</button>
+            </div>
+            
+            <div class="result-display" id="style-result"></div>
+        </div>
+    </section>
+
+    <!-- Add/Remove Elements -->
+    <section id="elements" class="section">
+        <div class="emoji-badge">➕</div>
+        <h2>🔸 Add / Remove Elements</h2>
+        
+        <div class="demo-box">
+            <h3>Creating New Elements:</h3>
+            <pre><code>const newPara = document.createElement('p');
+newPara.textContent = "This was dynamically added!";
+document.body.appendChild(newPara);</code></pre>
+            
+            <h3>Removing Elements:</h3>
+            <pre><code>paragraph.remove();</code></pre>
+        </div>
+
+        <div class="interactive-box">
+            <h3>🎮 Element Creation/Removal Demo:</h3>
+            
+            <div id="element-container" class="playground">
+                <p>This is the container where new elements will be added.</p>
+            </div>
+            
+            <div class="controls-grid">
+                <select id="element-type">
+                    <option value="p">Paragraph</option>
+                    <option value="div">Div</option>
+                    <option value="button">Button</option>
+                    <option value="h3">Heading</option>
+                </select>
+                <input type="text" id="element-content" placeholder="Element content" value="New element!">
+            </div>
+            
+            <div class="controls-grid">
+                <button onclick="createElement()">Create Element</button>
+                <button onclick="removeLastElement()">Remove Last</button>
+                <button onclick="clearAllElements()">Clear All</button>
+                <button onclick="cloneElement()">Clone Last Element</button>
+            </div>
+            
+            <div class="result-display" id="element-result"></div>
+        </div>
+    </section>
+
+    <!-- Interactive Playground -->
+    <section id="playground" class="section dark">
+        <div class="emoji-badge">🎪</div>
+        <h2>Interactive DOM Playground</h2>
+        
+        <div class="interactive-box" style="background: #fff; color: #000;">
+            <h3>🚀 Build Your Own DOM Manipulation!</h3>
+            <p>Combine everything you've learned to create dynamic content:</p>
+            
+            <div id="playground-area" class="playground">
+                <h3 id="playground-title">Welcome to the Playground!</h3>
+                <p id="playground-text">This area will change based on your actions.</p>
+            </div>
+            
+            <div class="controls-grid">
+                <input type="text" id="playground-input" placeholder="Enter some text">
+                <select id="playground-action">
+                    <option value="changeTitle">Change Title</option>
+                    <option value="changeText">Change Text</option>
+                    <option value="addElement">Add Element</option>
+                    <option value="changeColor">Change Color</option>
+                </select>
+            </div>
+            
+            <div class="controls-grid">
+                <button onclick="executePlaygroundAction()">Execute Action</button>
+                <button onclick="animateElement()">Animate!</button>
+                <button onclick="resetPlayground()">Reset Playground</button>
+            </div>
+            
+            <div class="console-output" id="playground-console"></div>
+        </div>
+    </section>
+
+    <script>
+        // Utility functions
+        function writeToConsole(elementId, message) {
+            const console = document.getElementById(elementId);
+            console.innerHTML += message + '<br>';
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearConsole(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        // DOM Access Demonstrations
+        function demonstrateGetById() {
+            clearConsole('access-console');
+            writeToConsole('access-console', '> const element = document.getElementById("demo-heading");');
+            writeToConsole('access-console', '> console.log(element.textContent);');
+            
+            const element = document.getElementById('demo-heading');
+            writeToConsole('access-console', `"${element.textContent}"`);
+            
+            // Highlight the selected element
+            element.style.background = '#ffff00';
+            setTimeout(() => element.style.background = '#fff', 2000);
+        }
+
+        function demonstrateQuerySelector() {
+            clearConsole('access-console');
+            writeToConsole('access-console', '> const element = document.querySelector(".description");');
+            writeToConsole('access-console', '> console.log(element.textContent);');
+            
+            const element = document.querySelector('.description');
+            writeToConsole('access-console', `"${element.textContent}"`);
+            
+            element.style.background = '#ffff00';
+            setTimeout(() => element.style.background = '#fff', 2000);
+        }
+
+        function demonstrateGetByClass() {
+            clearConsole('access-console');
+            writeToConsole('access-console', '> const elements = document.getElementsByClassName("description");');
+            writeToConsole('access-console', '> console.log(elements.length);');
+            
+            const elements = document.getElementsByClassName('description');
+            writeToConsole('access-console', `Found ${elements.length} elements`);
+            
+            Array.from(elements).forEach((el, index) => {
+                el.style.background = '#ffff00';
+                setTimeout(() => el.style.background = '#fff', 2000);
+            });
+        }
+
+        function demonstrateQuerySelectorAll() {
+            clearConsole('access-console');
+            writeToConsole('access-console', '> const buttons = document.querySelectorAll(".demo-button");');
+            writeToConsole('access-console', '> console.log(buttons.length);');
+            
+            const buttons = document.querySelectorAll('.demo-button');
+            writeToConsole('access-console', `Found ${buttons.length} buttons`);
+            
+            buttons.forEach((btn, index) => {
+                btn.style.background = '#ffff00';
+                btn.style.color = '#000';
+                setTimeout(() => {
+                    btn.style.background = '#000';
+                    btn.style.color = '#fff';
+                }, 2000);
+            });
+        }
+
+        // Content Manipulation
+        function changeTextContent() {
+            const element = document.getElementById('content-demo');
+            const newText = document.getElementById('text-input').value;
+            element.textContent = newText;
+            
+            document.getElementById('content-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.textContent = "${newText}";
+            `;
+        }
+
+        function changeInnerHTML() {
+            const element = document.getElementById('content-demo');
+            const newHTML = document.getElementById('html-input').value;
+            element.innerHTML = newHTML;
+            
+            document.getElementById('content-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.innerHTML = "${newHTML}";
+            `;
+        }
+
+        function resetContent() {
+            const element = document.getElementById('content-demo');
+            element.textContent = 'Original content here';
+            document.getElementById('content-result').innerHTML = '<strong>Content reset to original</strong>';
+        }
+
+        // Attribute Manipulation
+        function setAttribute() {
+            const element = document.getElementById('demo-image');
+            const attrName = document.getElementById('attr-name').value;
+            const attrValue = document.getElementById('attr-value').value;
+            
+            element.setAttribute(attrName, attrValue);
+            
+            document.getElementById('attribute-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.setAttribute("${attrName}", "${attrValue}");
+            `;
+        }
+
+        function getAttribute() {
+            const element = document.getElementById('demo-image');
+            const attrName = document.getElementById('attr-name').value;
+            const attrValue = element.getAttribute(attrName);
+            
+            document.getElementById('attribute-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.getAttribute("${attrName}");<br>
+                <strong>Result:</strong> "${attrValue}"
+            `;
+        }
+
+        function removeAttribute() {
+            const element = document.getElementById('demo-image');
+            const attrName = document.getElementById('attr-name').value;
+            
+            element.removeAttribute(attrName);
+            
+            document.getElementById('attribute-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.removeAttribute("${attrName}");
+            `;
+        }
+
+        function toggleClass() {
+            const element = document.getElementById('demo-image');
+            element.classList.toggle('highlighted');
+            
+            // Add CSS for highlighted class if it doesn't exist
+            if (!document.getElementById('highlight-style')) {
+                const style = document.createElement('style');
+                style.id = 'highlight-style';
+                style.textContent = '.highlighted { border: 5px solid red; }';
+                document.head.appendChild(style);
+            }
+            
+            document.getElementById('attribute-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.classList.toggle("highlighted");
+            `;
+        }
+
+        // Style Manipulation
+        function applyStyle() {
+            const element = document.getElementById('style-demo');
+            const property = document.getElementById('style-property').value;
+            const value = document.getElementById('style-value').value;
+            
+            element.style[property] = value;
+            
+            document.getElementById('style-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                element.style.${property} = "${value}";
+            `;
+        }
+
+        function randomStyle() {
+            const element = document.getElementById('style-demo');
+            const colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            element.style.color = randomColor;
+            element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            element.style.fontSize = (Math.random() * 20 + 16) + 'px';
+            
+            document.getElementById('style-result').innerHTML = `
+                <strong>Applied random styles!</strong><br>
+                Color: ${randomColor}<br>
+                Background: ${element.style.backgroundColor}<br>
+                Font Size: ${element.style.fontSize}
+            `;
+        }
+
+        function resetStyles() {
+            const element = document.getElementById('style-demo');
+            element.style.cssText = '';
+            element.className = 'demo-element';
+            
+            document.getElementById('style-result').innerHTML = '<strong>All styles reset!</strong>';
+        }
+
+        // Element Creation/Removal
+        let elementCounter = 0;
+
+        function createElement() {
+            const container = document.getElementById('element-container');
+            const elementType = document.getElementById('element-type').value;
+            const content = document.getElementById('element-content').value;
+            
+            const newElement = document.createElement(elementType);
+            newElement.textContent = content;
+            newElement.style.margin = '10px 0';
+            newElement.style.padding = '10px';
+            newElement.style.border = '1px solid #000';
+            newElement.style.background = '#f9f9f9';
+            newElement.id = `dynamic-element-${++elementCounter}`;
+            
+            container.appendChild(newElement);
+            
+            document.getElementById('element-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                const newElement = document.createElement("${elementType}");<br>
+                newElement.textContent = "${content}";<br>
+                container.appendChild(newElement);
+            `;
+        }
+
+        function removeLastElement() {
+            const container = document.getElementById('element-container');
+            const children = container.children;
+            
+            if (children.length > 1) { // Keep the original paragraph
+                const lastElement = children[children.length - 1];
+                lastElement.remove();
+                
+                document.getElementById('element-result').innerHTML = `
+                    <strong>Code executed:</strong><br>
+                    lastElement.remove();
+                `;
+            } else {
+                document.getElementById('element-result').innerHTML = '<strong>No elements to remove!</strong>';
+            }
+        }
+
+        function clearAllElements() {
+            const container = document.getElementById('element-container');
+            container.innerHTML = '<p>This is the container where new elements will be added.</p>';
+            elementCounter = 0;
+            
+            document.getElementById('element-result').innerHTML = `
+                <strong>Code executed:</strong><br>
+                container.innerHTML = "original content";
+            `;
+        }
+
+        function cloneElement() {
+            const container = document.getElementById('element-container');
+            const children = container.children;
+            
+            if (children.length > 1) {
+                const lastElement = children[children.length - 1];
+                const clonedElement = lastElement.cloneNode(true);
+                clonedElement.id = `dynamic-element-${++elementCounter}`;
+                clonedElement.textContent += ' (cloned)';
+                container.appendChild(clonedElement);
+                
+                document.getElementById('element-result').innerHTML = `
+                    <strong>Code executed:</strong><br>
+                    const cloned = lastElement.cloneNode(true);<br>
+                    container.appendChild(cloned);
+                `;
+            } else {
+                document.getElementById('element-result').innerHTML = '<strong>No elements to clone!</strong>';
+            }
+        }
+
+        // Interactive Playground
+        function executePlaygroundAction() {
+            const action = document.getElementById('playground-action').value;
+            const input = document.getElementById('playground-input').value;
+            
+            clearConsole('playground-console');
+            
+            switch(action) {
+                case 'changeTitle':
+                    document.getElementById('playground-title').textContent = input || 'New Title!';
+                    writeToConsole('playground-console', `> Title changed to: "${input}"`);
+                    break;
+                case 'changeText':
+                    document.getElementById('playground-text').textContent = input || 'New text content!';
+                    writeToConsole('playground-console', `> Text changed to: "${input}"`);
+                    break;
+                case 'addElement':
+                    const newP = document.createElement('p');
+                    newP.textContent = input || 'New paragraph!';
+                    newP.style.background = '#e6f3ff';
+                    newP.style.padding = '10px';
+                    newP.style.margin = '5px 0';
+                    document.getElementById('playground-area').appendChild(newP);
+                    writeToConsole('playground-console', `> Added new paragraph: "${input}"`);
+                    break;
+                case 'changeColor':
+                    const area = document.getElementById('playground-area');
+                    area.style.backgroundColor = input || '#ffcccb';
+                    writeToConsole('playground-console', `> Background color changed to: "${input}"`);
+                    break;
+            }
+        }
+
+        function animateElement() {
+            const title = document.getElementById('playground-title');
+            let colors = ['red', 'blue', 'green', 'purple', 'orange'];
+            let i = 0;
+            
+            const interval = setInterval(() => {
+                title.style.color = colors[i % colors.length];
+                title.style.transform = `scale(${1 + Math.sin(i) * 0.1})`;
+                i++;
+                
+                if (i > 20) {
+                    clearInterval(interval);
+                    title.style.color = '#000';
+                    title.style.transform = 'scale(1)';
+                }
+            }, 200);
+            
+            writeToConsole('playground-console', '> Animation started!');
+        }
+
+        function resetPlayground() {
+            const area = document.getElementById('playground-area');
+            area.innerHTML = `
+                <h3 id="playground-title">Welcome to the Playground!</h3>
+                <p id="playground-text">This area will change based on your actions.</p>
+            `;
+            area.style.backgroundColor = '#f0f0f0';
+            clearConsole('playground-console');
+            writeToConsole('playground-console', '> Playground reset!');
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.navigation a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

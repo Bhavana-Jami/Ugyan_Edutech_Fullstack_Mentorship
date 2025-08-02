@@ -3,3 +3,32 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+input{
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+button{
+    padding: 0.5rem 0.8rem;
+    font-weight: bolder;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+#todo-container{
+    margin-top: 1.5rem;
+}
+#todo-container div{
+    padding: 0.5rem;
+    background: black;
+    color: white;
+    margin: 0.5rem 0 0.5rem;
+    border-radius: 2px;
+
+}
